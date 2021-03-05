@@ -17,8 +17,8 @@ urlpatterns = [
     path('mydiary/delete/<int:question_id>/', views.diary_delete, name='diary_delete'),
 
     # # 달력테스트
-    path('cal/', views.calendar_view, name="calendar"),
-    path('mydiary/new/', views.event, name="new"),
-    path('<int:event_id>', views.event, name="edit"),
+    # path('cal/', views.calendar_view, name="calendar"),
+    # path('mydiary/new/', views.event, name="new"),
+    # path('<int:event_id>', views.event, name="edit"),
     # #
 ]
