@@ -39,6 +39,12 @@ import json
 # 딥러닝 ##############################################
 okt = Okt()
 stopwords = []
+f = open('stopwords.csv')
+lines = f.readlines()
+for line in lines:
+    line = line.strip()
+    stopwords.append(line)
+f.close()
 
 
 def sentence_preprocessing(sentence):
