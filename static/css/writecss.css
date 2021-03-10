@@ -1,0 +1,81 @@
+.container {
+	display: grid;
+	/* display: inline-grid; */
+	    font-size: 1em;
+
+}
+
+.container {
+	/*grid-template-columns: 200px 100px 250px 100px;*/
+	/* grid-template-columns: 1fr 1fr 1fr */
+	/* grid-template-columns: repeat(3, 1fr) */
+	/* grid-template-columns: 200px 1fr */
+	/* grid-template-columns: 100px 200px auto */
+
+	grid-template-columns: repeat(auto-fill, minmax(20%, auto));
+
+	grid-template-rows:100px 200px 150px 150px 200px 150px;
+	/* grid-template-rows:0px 300px 100px 100px 0px; */
+	/* grid-template-rows: 1fr 1fr 1fr */
+	/* grid-template-rows: repeat(3, 1fr) */
+	/* grid-template-rows: 200px 1fr */
+	/* grid-template-rows: 100px 200px auto */
+
+	gap: 50px;
+}
+.item {
+        /*background-color: orange;*/
+    }
+
+.item:nth-child(5) {
+	/* 1번 라인에서 2칸 */
+	grid-column: 1 / span 2;
+	/* 2번 라인에서 3칸 */
+	grid-row: 2 / span 2;
+}
+.item:nth-child(6) {
+	grid-column: 3 / span 2;
+	grid-row: 2 / span 2;
+}
+.item:nth-child(7) {
+	grid-column: 3 / span 2;
+	grid-row: 4 / span 2;
+}
+.item:nth-child(8) {
+	/* 1번 라인에서 2칸 */
+	grid-column: 1 / span 2;
+	/* 1번 라인에서 3칸 */
+	grid-row: 5 / span 2;
+}
+.item:nth-child(9) {
+	/* 1번 라인에서 2칸 */
+	grid-column: 2 / span 1;
+	/* 1번 라인에서 3칸 */
+	grid-row: 4 / span 1;
+}
+
+textarea{
+width: 100%;
+height: 400px;
+font-size: 16px;
+color: #ffffff;
+resize: none;
+
+}
+
+input[type="button"],
+button.special,
+		.button.special {
+			background-color: #fafafa;
+			color: #000000 !important;
+		}
+ul.actions {
+			cursor: default;
+			list-style: none;
+			padding-left: 0;
+		}
+		ul.actions li {
+				display: inline-block;
+				padding: 0 1em 0 0;
+				vertical-align: middle;
+			}

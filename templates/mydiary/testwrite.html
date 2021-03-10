@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'testbase.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/writecss.css' %}" />
+
+
+<div class="container">
+    <div class="item"></div>
+	<div class="item"></div>
+	<div class="item"></div>
+	<div class="item"></div>
+	<div class="item">
+		<textarea name="message" id="message" placeholder="여기에 일기를 작성하세요" ></textarea>
+	</div>
+	<div class="item">맞춤추천
+
+	</div>
+
+	<div class="item">기분전환
+
+	</div>
+
+	<div class="item">감정그래프
+
+	</div>
+
+	<div class="item">
+		<ul class="actions">
+			<a href="#" class="button alt">노래</a>
+			<a href="#" class="button alt">영화</a>
+		</ul>
+	</div>
+
+<!--	<div class="item">E</div>-->
+<!--	<div class="item">F</div>-->
+<!--	<div class="item">G</div>-->
+<!--	<div class="item">H</div>-->
+<!--	<div class="item">I</div>-->
+<!--    <div class="item">J</div>-->
+<!--	<div class="item">K</div>-->
+<!--	<div class="item">L</div>-->
+<!--	<div class="item">M</div>-->
+</div>
+
+
+{% endblock %}

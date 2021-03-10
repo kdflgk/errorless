@@ -2,9 +2,9 @@
 {% extends 'base.html' %}
 {% load diary_filter %}
 {% block content %}
-
 <div class="container my-3">
-    <a href="{% url 'mydiary:write' %}" class="btn btn-secondary">새 일기 작성</a>
+
+
     <table class="table">
         <thead>
         <tr class="table-primary">
@@ -36,6 +36,9 @@
         {% endif %}
         </tbody>
     </table>
+    <a href="{% url 'mydiary:write' %}" class="btn btn-secondary">새 일기 작성</a>
+
+
       <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
@@ -76,4 +79,9 @@
     <!-- 페이징처리 끝 -->
 
 </div>
+
 {% endblock %}
+
+{% block script %}
+{% endblock %}
+

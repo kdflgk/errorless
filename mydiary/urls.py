@@ -10,8 +10,8 @@ app_name = 'mydiary'
 
 urlpatterns = [
 
-    # path('', views.startup, name='start'),
-    path('', views.main, name='main'),
+    path('', views.startup, name='startup'),
+    path('main/', views.main, name='main'),
     path('write/', views.write, name='write'),
     path('mydiary/<int:question_id>/', views.detail, name='detail'),
     path('mydiary/delete/<int:question_id>/', views.diary_delete, name='diary_delete'),

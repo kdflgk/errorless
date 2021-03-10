@@ -31,11 +31,6 @@ import json
 ######################################################
 
 
-# @login_required(login_url='common:login')
-# def startup(request):
-#     return render(request, 'mydiary/startupscreen.html')
-
-
 # 딥러닝 ##############################################
 okt = Okt()
 stopwords = []
@@ -90,6 +85,12 @@ def mood(sentence):
     return result
 ######################################################
 
+
+@login_required(login_url='common:login')
+def startup(request):
+    return render(request, 'mydiary/testmain.html')
+
+
 @login_required(login_url='common:login')
 def main(request):
     """
@@ -108,6 +109,7 @@ def main(request):
     return render(request, 'mydiary/mainscreen.html', context)
     # return render(request, 'mydiary/testmain.html', context)
 
+
 @login_required(login_url='common:login')
 def write(request):
     """
@@ -124,7 +126,8 @@ def write(request):
     else:
         form = DiaryForm()
     context = {'form': form}
-    return render(request, 'mydiary/writediary.html', context)
+    # return render(request, 'mydiary/writediary.html', context)
+    return render(request, 'mydiary/testwrite.html', context)
 
 
 @login_required(login_url='common:login')
@@ -137,9 +140,10 @@ def detail(request, question_id):
     ###################
     question.moodres = mood(question.content)
     ###################
-    # context = {'question': question}
+    print()
     context = {'question': question}
-    return render(request, 'mydiary/detail.html', context)
+    # return render(request, 'mydiary/detail.html', context)
+    return render(request, 'mydiary/testdetail.html', context)
 
 
 @login_required(login_url='common:login')
