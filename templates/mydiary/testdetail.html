@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 
-<div class="container my-3">
+<div class="container my-3" style="padding:100px">
     <h2 class="border-bottom py-2">{{ question.subject }}</h2>
     <div class="card my-3">
         <div class="card-body">
@@ -20,7 +20,7 @@
             <div class="card-text" style="white-space: pre-line;">{{ question.moodres }}</div>
         </div>
     </div>
-    <a href="#" class="delete btn btn-sm btn-outline-secondary"
+    <a href="#" class="delete button alt"
        data-uri="{% url 'mydiary:diary_delete' question.id  %}">삭제</a>
 </div>
 

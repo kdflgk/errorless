@@ -2016,13 +2016,13 @@
 				color: #bfbfbf;
 			}
 
-		input[type="submit"].special,
+		input[type="submit"].special, /* 스페셜(special)버튼 색상설정 */
 		input[type="reset"].special,
 		input[type="button"].special,
 		button.special,
 		.button.special {
-			background-color: #fafafa;
-			color: #000000 !important;
+			background-color: #000000;
+			color: #ffffff !important;
 		}
 
 			input[type="submit"].special:hover,
@@ -2030,7 +2030,7 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: white;
+				background-color: #808080;
 			}
 
 			input[type="submit"].special:active,
@@ -3517,7 +3517,7 @@
 			background-color: untransparent; /*네비게이션바 색상*/
 			box-shadow: none;
 			overflow: hidden;
-			position: absolute;
+			position: fixed;
 			/*top: 1.5em;*/
 		}
 

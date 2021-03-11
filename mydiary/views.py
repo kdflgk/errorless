@@ -106,8 +106,8 @@ def main(request):
     page_obj = paginator.get_page(page)
 
     context = {'question_list': page_obj}
-    return render(request, 'mydiary/mainscreen.html', context)
-    # return render(request, 'mydiary/testmain.html', context)
+    # return render(request, 'mydiary/mainscreen.html', context)
+    return render(request, 'mydiary/testmypage.html', context)
 
 
 @login_required(login_url='common:login')
