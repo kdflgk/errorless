@@ -10,6 +10,12 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
 
+# 프로필 ##############################################
+from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
+from django.views import View
+from common.forms import UserForm, ProfileForm
+######################################################
 # # 달력테스트
 # import datetime
 # from .models import Event
@@ -28,8 +34,61 @@ from konlpy.tag import Okt
 from pykospacing import spacing
 from soynlp.normalizer import *
 import json
+import itertools
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
 ######################################################
 
+
+class ProfileView(DetailView):
+    context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
+    model = User
+    template_name = 'mydiary/testmypage.html'
+
+
+class ProfileUpdateView(View): # 간단한 View클래스를 상속 받았으므로 get함수와 post함수를 각각 만들어줘야한다.
+    # 프로필 편집에서 보여주기위한 get 메소드
+    def get(self, request):
+        user = get_object_or_404(User, pk=request.user.pk)  # 로그인중인 사용자 객체를 얻어옴
+        user_form = UserForm(initial={
+            'username': user.username,
+            'email': user.email,
+        })
+        if hasattr(user, 'profile'):  # user가 profile을 가지고 있으면 True, 없으면 False (회원가입을 한다고 profile을 가지고 있진 않으므로)
+            profile = user.profile
+            profile_form = ProfileForm(initial={
+                'nickname': profile.nickname,
+                'profile_photo': profile.profile_photo,
+            })
+        else:
+            profile_form = ProfileForm()
+
+        return render(request, 'mydiary/updateprofile.html', {"user_form": user_form, "profile_form": profile_form})
+        # return render(request, 'mydiary/testmypage.html', {"user_form": user_form, "profile_form": profile_form})
+
+    # 프로필 편집에서 실제 수정(저장) 버튼을 눌렀을 때 넘겨받은 데이터를 저장하는 post 메소드
+    def post(self, request):
+        u = User.objects.get(id=request.user.pk)  # 로그인중인 사용자 객체를 얻어옴
+        user_form = UserForm(request.POST, instance=u)  # 기존의 것의 업데이트하는 것 이므로 기존의 인스턴스를 넘겨줘야한다. 기존의 것을 가져와 수정하는 것
+
+        # User 폼
+        if user_form.is_valid():
+            user_form.save()
+
+        if hasattr(u, 'profile'):
+            profile = u.profile
+            profile_form = ProfileForm(request.POST, request.FILES, instance=profile)  # 기존의 것 가져와 수정하는 것
+        else:
+            profile_form = ProfileForm(request.POST, request.FILES)  # 새로 만드는 것
+
+        # Profile 폼
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)  # 기존의 것을 가져와 수정하는 경우가 아닌 새로 만든 경우 user를 지정해줘야 하므로
+            profile.user = u
+            profile.save()
+
+        return redirect('mydiary:profile', pk=request.user.pk)  # 수정된 화면 보여주기
 
 # 딥러닝 ##############################################
 okt = Okt()
@@ -53,15 +112,14 @@ def sentence_preprocessing(sentence):
 
 def mood(sentence):
     max_len = 30
-    model = load_model('best_model11.h5')
+    model = load_model('best_model.h5')
+
     tokenizer = Tokenizer()
 
     with open('wordIndex.json') as json_file:
         word_index = json.load(json_file)
         tokenizer.word_index = word_index
 
-    # sentence = '기분이 너무 좋다'
-    # print(sentence)
     new_sentence = sentence_preprocessing(sentence)
     print(new_sentence)
     encoded = tokenizer.texts_to_sequences([new_sentence])  # 정수 인코딩
@@ -82,11 +140,35 @@ def mood(sentence):
     if score.argmax() == 3:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '두려움, 불안')
         print(result)
-    return result
+    if score.argmax() == 4:
+        result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '놀라움, 충격')
+        print(result)
+    if score.argmax() == 5:
+        result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '지루, 따분')
+        print(result)
+
+    data = score.tolist()
+    data = list(itertools.chain.from_iterable(data))
+
+    labels = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
+    colors = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0', '#00ccff', '#00ff22']
+    wedgeprops = {'width': 0.7, 'edgecolor': 'w', 'linewidth': 5}
+    explode = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
+
+    plt.pie(data, labels=labels, autopct='%.1f%%', startangle=260, counterclock=False, colors=colors,
+            wedgeprops=wedgeprops, explode=explode)
+    # plt.show()
+    fig = plt.gcf()
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    plt.close(fig)
+    return result, uri
 ######################################################
 
 
-@login_required(login_url='common:login')
 def startup(request):
     return render(request, 'mydiary/testmain.html')
 
@@ -107,7 +189,7 @@ def main(request):
 
     context = {'question_list': page_obj}
     # return render(request, 'mydiary/mainscreen.html', context)
-    return render(request, 'mydiary/testmypage.html', context)
+    return render(request, 'mydiary/testdiarylist.html', context)
 
 
 @login_required(login_url='common:login')
@@ -138,10 +220,11 @@ def detail(request, question_id):
     question = Diary.objects.get(id=question_id)
     question.author = request.user
     ###################
-    question.moodres = mood(question.content)
+    # sentiment_predict_pie_graph(question.content)
+    question.moodres, uri = mood(question.content)
     ###################
     print()
-    context = {'question': question}
+    context = {'question': question, 'data': uri}
     # return render(request, 'mydiary/detail.html', context)
     return render(request, 'mydiary/testdetail.html', context)
 

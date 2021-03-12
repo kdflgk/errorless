@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.urls import reverse
 
 # Create your models here.
@@ -19,6 +20,12 @@ class Diary(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Diary, on_delete=models.CASCADE)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 현 계정의 사용자를 가져올 수 있음.
+    nickname = models.CharField(max_length=64)
+    profile_photo = models.ImageField(upload_to='static/images',blank=True)                 # 값을 채워넣지 않아도 되는 속성.
 
 
 # # 달력 테스트
