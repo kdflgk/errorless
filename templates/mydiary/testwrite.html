@@ -4,51 +4,62 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/writecss.css' %}" />
-
-
-<div class="container">
-    <div class="item"></div>
-	<div class="item"></div>
-	<div class="item"></div>
-	<div class="item"></div>
-	<div class="item">
-		<textarea name="message" id="message" placeholder="여기에 일기를 작성하세요" ></textarea>
-	</div>
-
-	<div class="item">맞춤추천
-		<div class="box">
-			<ol>
-				<li>1번노래</li>
-				<li>2번노래</li>
-				<li>3번노래</li>
-			</ol>
+<form method="post" class="post-form my-3">
+	<div class="container">
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item">
+			{% csrf_token %}
+			<!-- 오류표시 Start -->
+			{% if form.errors %}
+			<div class="alert alert-danger" role="alert">
+				{% for field in form %}
+				{% if field.errors %}
+				<strong>{{ field.label }}</strong>
+				{{ field.errors }}
+				{% endif %}
+				{% endfor %}
+			</div>
+			{% endif %}
+			<!-- 오류표시 End -->
+			<div class="form-group">
+				<input type="text" class="form-control" name="subject" id="subject"
+					   value="{{ form.subject.value|default_if_none:'' }}" placeholder="제목을 입력하세요">
+			</div>
+			<div class="form-group">
+            <textarea class="form-control" name="content"
+					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
+			</div>
+			<button type="submit" class="button alt" style="float:right">노래</button>
+			<button type="submit" class="button special" style="float:right; margin-right:25px">영화</button>
+			<div class="item" style="margin-top:50px">
+				{% for jsfile_name in script_list %}
+				<script src="{{host}}/{{jsfile_name}}.js"></script>
+				{% endfor %}
+				{{ data|safe }}
+			</div>
+		</div>
+		<div class="item">맞춤추천
+			<div class="box">
+				<ol>
+					{% for song in singlist %}
+					<li>{{song}}</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
+		<div class="item">기분전환
+			<div class="box">
+				<ol>
+					<li>1번노래</li>
+					<li>2번노래</li>
+					<li>3번노래</li>
+				</ol>
+			</div>
 		</div>
 	</div>
-
-	<div class="item">기분전환
-		<div class="box">
-			<ol>
-				<li>1번노래</li>
-				<li>2번노래</li>
-				<li>3번노래</li>
-			</ol>
-		</div>
-	</div>
-
-	<div class="item">감정그래프
-	</div>
-
-	<div class="item">
-		<ul class="actions">
-			<a href="#" class="button">노래</a>
-			<a href="#" class="button alt">영화</a>
-			<a href="#" class="button special">실험</a>
-		</ul>
-	</div>
-
-
-</div>
-
-
+</form>
 
 {% endblock %}

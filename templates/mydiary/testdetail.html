@@ -3,9 +3,25 @@
 {% block content %}
 {% load static %}
 
+<style>
+.container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(40%, auto));
+	gap: 50px;
+}
+.card{
+    grid-gap: 50px;
+}
+</style>
+
+{% for jsfile_name in script_list %}
+<script src="{{host}}/{{jsfile_name}}.js"></script>
+{% endfor %}
+
 <div class="container my-3" style="padding:100px">
-    <h2 class="border-bottom py-2">{{ question.subject }}</h2>
+
     <div class="card my-3">
+        <h2 class="border-bottom py-2">{{ question.subject }}</h2>
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
             <div class="d-flex justify-content-end">
@@ -15,18 +31,36 @@
             </div>
         </div>
     </div>
-    <div>
-        <img src="data:image/png;base64,{{ data }}" alt="" >
+    <div class="card my-3" >맞춤추천
+        <div class="box">
+            <ol>
+                {% for song in singlist %}
+                <li>{{song}}</li>
+                {% endfor %}
+            </ol>
+        </div>
     </div>
 
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{ question.moodres }}</div>
+    <div>
+        {% for jsfile_name in script_list %}
+        <script src="{{host}}/{{jsfile_name}}.js"></script>
+        {% endfor %}
+        {{ data|safe }}
+    </div>
+    <div class="card my-3">기분전환
+        <div class="box">
+            <ol>
+                {% for song in singlist %}
+                <li>{{song}}</li>
+                {% endfor %}
+            </ol>
         </div>
     </div>
     <a href="#" class="delete button alt"
-       data-uri="{% url 'mydiary:diary_delete' question.id  %}">삭제</a>
+       data-uri="{% url 'mydiary:diary_delete' question.id  %}" style="width:100px">삭제</a>
 </div>
+
+
 
 {% endblock %}
 <!-- ------------------------------- [edit] -------------------------------- -->

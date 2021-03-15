@@ -15,17 +15,10 @@ from django.contrib.auth.models import User
 from django.views.generic.detail import DetailView
 from django.views import View
 from common.forms import UserForm, ProfileForm
-######################################################
-# # 달력테스트
-# import datetime
-# from .models import Event
-# import calendar
-# from .calendar import Calendar
-# from django.utils.safestring import mark_safe
-# from .forms import EventForm
 
 # 딥러닝 ##############################################
 import numpy as np
+import pandas as pd
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -38,12 +31,16 @@ import itertools
 import matplotlib.pyplot as plt
 import io
 import urllib, base64
+from pyecharts import Pie
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 ######################################################
 
 
 class ProfileView(DetailView):
     context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
     model = User
+    # template_name = 'mydiary/testmypage.html'
     template_name = 'mydiary/testmypage.html'
 
 
@@ -94,12 +91,21 @@ class ProfileUpdateView(View): # 간단한 View클래스를 상속 받았으므�
 okt = Okt()
 stopwords = []
 f = open('stopwords.csv')
+lyric = pd.read_csv('lyric_label(2개로)_new2.csv')
 lines = f.readlines()
 for line in lines:
     line = line.strip()
     stopwords.append(line)
 f.close()
+max_len = 30
+model = load_model('best_model.h5')
+tokenizer = Tokenizer()
 
+with open('wordIndex.json') as json_file:
+    word_index = json.load(json_file)
+    tokenizer.word_index = word_index
+
+REMOTE_HOST = "https://pyecharts.github.io/assets/js"
 
 def sentence_preprocessing(sentence):
     new_sentence = spacing(sentence)
@@ -110,16 +116,7 @@ def sentence_preprocessing(sentence):
     return new_sentence
 
 
-def mood(sentence):
-    max_len = 30
-    model = load_model('best_model.h5')
-
-    tokenizer = Tokenizer()
-
-    with open('wordIndex.json') as json_file:
-        word_index = json.load(json_file)
-        tokenizer.word_index = word_index
-
+def prepro(sentence):
     new_sentence = sentence_preprocessing(sentence)
     print(new_sentence)
     encoded = tokenizer.texts_to_sequences([new_sentence])  # 정수 인코딩
@@ -128,6 +125,28 @@ def mood(sentence):
     print(pad_new)
     score = model.predict(pad_new)
     print(score)
+    return score
+
+
+def mood(sentence):
+    # max_len = 30
+    # model = load_model('best_model.h5')
+    #
+    # tokenizer = Tokenizer()
+    #
+    # with open('wordIndex.json') as json_file:
+    #     word_index = json.load(json_file)
+    #     tokenizer.word_index = word_index
+    #
+    # new_sentence = sentence_preprocessing(sentence)
+    # print(new_sentence)
+    # encoded = tokenizer.texts_to_sequences([new_sentence])  # 정수 인코딩
+    # print(encoded)
+    # pad_new = pad_sequences(encoded, maxlen=max_len)  # 패딩
+    # print(pad_new)
+    # score = model.predict(pad_new)
+    # print(score)
+    score = prepro(sentence)
     if score.argmax() == 0:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '행복, 즐거움')
         print(result)
@@ -148,24 +167,93 @@ def mood(sentence):
         print(result)
 
     data = score.tolist()
-    data = list(itertools.chain.from_iterable(data))
+    v2 = list(itertools.chain.from_iterable(data))
+    attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
+    pie = Pie("", title_pos="center", width=600)
+    # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
+    pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=15,
+            legend_orient='vertical', legend_pos='right', legend_text_size=14)
+    ########################################################################
+    # data = score.tolist()
+    # data = list(itertools.chain.from_iterable(data))
+    #
+    # labels = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
+    # colors = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0', '#00ccff', '#00ff22']
+    # wedgeprops = {'width': 0.7, 'edgecolor': 'w', 'linewidth': 5}
+    # explode = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
+    #
+    # plt.pie(data, labels=labels, autopct='%.1f%%', startangle=260, counterclock=False, colors=colors,
+    #         wedgeprops=wedgeprops, explode=explode)
+    #
+    # fig = pie.gcf()
+    # buf = io.BytesIO()
+    # fig.savefig(buf, format='png')
+    # buf.seek(0)
+    # string = base64.b64encode(buf.read())
+    # uri = urllib.parse.quote(string)
+    # plt.close(fig)
 
-    labels = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
-    colors = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0', '#00ccff', '#00ff22']
-    wedgeprops = {'width': 0.7, 'edgecolor': 'w', 'linewidth': 5}
-    explode = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
+    return result, pie
 
-    plt.pie(data, labels=labels, autopct='%.1f%%', startangle=260, counterclock=False, colors=colors,
-            wedgeprops=wedgeprops, explode=explode)
-    # plt.show()
-    fig = plt.gcf()
-    buf = io.BytesIO()
-    fig.savefig(buf, format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri = urllib.parse.quote(string)
-    plt.close(fig)
-    return result, uri
+
+def okt_tokenize(sent):
+    words = okt.pos(sent)
+    words = [w for w in words if ('Adjective' in w or 'Verb' in w or 'Noun' in w)]
+#     words = [w for w in words if ('Adjective' in w or 'Verb' in w )]
+    return words
+
+
+def func(sentence):
+    result = okt_tokenize(sentence)
+    t = []
+    for j in range(len(result)):
+        t.append(str(result[j][0]))
+    return t
+
+
+def recommend(sentence):
+    score = prepro(sentence)
+    if score.argmax() == 0:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 1:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 2:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 3:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 4:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 5:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+
+    df_rec.loc[0] = ['', '', '', sentence, '', '']
+    c = func(df_rec['lyric'][0])
+    df_rec['lyric_clean'][0] = ' '.join(c)
+
+    tfidf = TfidfVectorizer()
+    tfidf_matrix = tfidf.fit_transform(df_rec['lyric_clean'])
+
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+    indices = pd.Series(df_rec.index, index=df_rec['title']).drop_duplicates()
+
+    idx = indices['']
+
+    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+    sim_scores = sim_scores[1:6]
+
+    song_indices = [i[0] for i in sim_scores]
+
+    return df_rec.iloc[song_indices, 1:3]
 ######################################################
 
 
@@ -202,12 +290,25 @@ def write(request):
         if form.is_valid():
             question = form.save(commit=False)
             question.create_date = timezone.now()
-            question.author=request.user
+            question.author = request.user
             question.save()
-            return redirect('mydiary:main')
+            question.moodres, uri = mood(question.content)
+            uri2 = uri.render_embed()
+            script_list = uri.get_js_dependencies()
+            recom = recommend(question.content)
+            tre = recom['title']
+            sre = recom['singer']
+            singlist = tre + " - " + sre
+            print(singlist)
+            # return redirect('mydiary:main')
+            context = {'form': form, 'data': uri2, "script_list": script_list,
+                       "host": REMOTE_HOST,'singlist': singlist}
     else:
         form = DiaryForm()
-    context = {'form': form}
+        context = {'form': form}
+        print(4)
+
+    # context={'form': form}
     # return render(request, 'mydiary/writediary.html', context)
     return render(request, 'mydiary/testwrite.html', context)
 
@@ -222,9 +323,15 @@ def detail(request, question_id):
     ###################
     # sentiment_predict_pie_graph(question.content)
     question.moodres, uri = mood(question.content)
+    uri2 = uri.render_embed()
+    script_list = uri.get_js_dependencies()
     ###################
-    print()
-    context = {'question': question, 'data': uri}
+    recom = recommend(question.content)
+    tre = recom['title']
+    sre = recom['singer']
+    singlist = tre + " - " + sre
+    ###################
+    context = {'question': question, 'data': uri2, "script_list": script_list, "host": REMOTE_HOST, 'singlist': singlist}
     # return render(request, 'mydiary/detail.html', context)
     return render(request, 'mydiary/testdetail.html', context)
 
@@ -240,58 +347,3 @@ def diary_delete(request, question_id):
         return redirect('mydiary:detail', question_id=question.id)
     question.delete()
     return redirect('mydiary:main')
-
-
-# 달력테스트 ################################################################################################################################
-# def calendar_view(request):
-#     today = get_date(request.GET.get('month'))
-#
-#     prev_month_var = prev_month(today)
-#     next_month_var = next_month(today)
-#
-#     cal = Calendar(today.year, today.month)
-#     html_cal = cal.formatmonth(withyear=True)
-#     result_cal = mark_safe(html_cal)
-#
-#     context = {'calendar': result_cal, 'prev_month': prev_month_var, 'next_month': next_month_var}
-#
-#     return render(request, 'mydiary/events.html', context)
-
-
-# # 현재 달력을 보고 있는 시점의 시간을 반환
-# def get_date(req_day):
-#     if req_day:
-#         year, month = (int(x) for x in req_day.split('-'))
-#         return datetime.date(year, month, day=1)
-#     return datetime.datetime.today()
-#
-#
-# # 현재 달력의 이전 달 URL 반환
-# def prev_month(day):
-#     first = day.replace(day=1)
-#     prev_month = first - datetime.timedelta(days=1)
-#     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-#     return month
-#
-#
-# # 현재 달력의 다음 달 URL 반환
-# def next_month(day):
-#     days_in_month = calendar.monthrange(day.year, day.month)[1]
-#     last = day.replace(day=days_in_month)
-#     next_month = last + datetime.timedelta(days=1)
-#     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-#     return month
-#
-#
-# # 새로운 Event의 등록 혹은 수정
-# def event(request, event_id=None):
-#     if event_id:
-#         instance = get_object_or_404(Event, pk=event_id)
-#     else:
-#         instance = Event()
-#
-#     form = EventForm(request.POST or None, instance=instance)
-#     if request.POST and form.is_valid():
-#         form.save()
-#         return redirect('calendar')
-#     return render(request, 'mydiary/imput.html', {'form': form})
