@@ -32,8 +32,8 @@
             <textarea class="form-control" name="content"
 					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
 			</div>
-			<button type="submit" class="button alt" style="float:right">노래</button>
-			<button type="submit" class="button special" style="float:right; margin-right:25px">영화</button>
+			<button type="submit" class="button alt" style="float:right; margin-top:20px">노래추천받기</button>
+<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
 			<div class="item" style="margin-top:50px">
 				{% for jsfile_name in script_list %}
 				<script src="{{host}}/{{jsfile_name}}.js"></script>

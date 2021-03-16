@@ -91,7 +91,9 @@ class ProfileUpdateView(View): # 간단한 View클래스를 상속 받았으므�
 okt = Okt()
 stopwords = []
 f = open('stopwords.csv')
-lyric = pd.read_csv('lyric_label(2개로)_new2.csv')
+
+lyric = pd.read_csv('lyric_label_final.csv')
+
 lines = f.readlines()
 for line in lines:
     line = line.strip()
@@ -129,23 +131,6 @@ def prepro(sentence):
 
 
 def mood(sentence):
-    # max_len = 30
-    # model = load_model('best_model.h5')
-    #
-    # tokenizer = Tokenizer()
-    #
-    # with open('wordIndex.json') as json_file:
-    #     word_index = json.load(json_file)
-    #     tokenizer.word_index = word_index
-    #
-    # new_sentence = sentence_preprocessing(sentence)
-    # print(new_sentence)
-    # encoded = tokenizer.texts_to_sequences([new_sentence])  # 정수 인코딩
-    # print(encoded)
-    # pad_new = pad_sequences(encoded, maxlen=max_len)  # 패딩
-    # print(pad_new)
-    # score = model.predict(pad_new)
-    # print(score)
     score = prepro(sentence)
     if score.argmax() == 0:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '행복, 즐거움')
@@ -232,9 +217,9 @@ def recommend(sentence):
         df_rec = lyric[lyric['label'] == 0]
         df_rec = df_rec.reset_index(drop=True)
 
-    df_rec.loc[0] = ['', '', '', sentence, '', '']
-    c = func(df_rec['lyric'][0])
-    df_rec['lyric_clean'][0] = ' '.join(c)
+    df_rec.loc[len(df_rec)] = ['', '', '', sentence, '', '']
+    c = func(df_rec['lyric'][len(df_rec) - 1])
+    df_rec['lyric_clean'][len(df_rec) - 1] = ' '.join(c)
 
     tfidf = TfidfVectorizer()
     tfidf_matrix = tfidf.fit_transform(df_rec['lyric_clean'])
