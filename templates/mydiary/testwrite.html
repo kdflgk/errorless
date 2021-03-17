@@ -31,35 +31,46 @@
 			<div class="form-group">
             <textarea class="form-control" name="content"
 					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
+
 			</div>
-			<button type="submit" class="button alt" style="float:right; margin-top:20px">노래추천받기</button>
-<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
-			<div class="item" style="margin-top:50px">
+			<button type="submit" class="button alt" style="float:right; margin-top:20px">저장하기</button>
+			<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
+			<div class="item" style="margin-top:100px">
 				{% for jsfile_name in script_list %}
 				<script src="{{host}}/{{jsfile_name}}.js"></script>
 				{% endfor %}
 				{{ data|safe }}
 			</div>
 		</div>
-		<div class="item">맞춤추천
+		<div class="item">
 			<div class="box">
-				<ol>
-					{% for song in singlist %}
-					<li>{{song}}</li>
-					{% endfor %}
-				</ol>
+				{% for song in singlist %}
+				<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank">{{song}}</a></li>
+				{% endfor %}
 			</div>
 		</div>
-		<div class="item">기분전환
-			<div class="box">
-				<ol>
-					<li>1번노래</li>
-					<li>2번노래</li>
-					<li>3번노래</li>
-				</ol>
+
+		<div class="item">
+			<a style="font-size: 30px;">기분전환삼아서<br>이런 노래들은 어때??</a>
+			<div class="box" style="display:none;">
+				{% for song in singlist %}
+				<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank">{{song}}</a></li>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
 </form>
 
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(".item>a").click(function(){
+            $(this).next("div").slideToggle("box");
+        });
+    });
+</script>
 {% endblock %}

@@ -25,7 +25,7 @@
 		<li><a href="{% url 'mydiary:write' %}">글작성</a></li>
 		<li class="menu1">
 			<a>더보기</a>
-			<ul class="hide">
+			<ul class="hide1">
 				<a href="{% url 'mydiary:write' %}">시</a><br>
 				<a href="{% url 'mydiary:startup' %}">영화</a>
 			</ul>
@@ -36,12 +36,12 @@
 
 <style>
     .menu1 a{cursor:pointer;}
-    .menu1 .hide{display:none;}
+    .menu1 .hide1{display:none;}
 </style>
 <script>
     $(document).ready(function(){
         $(".menu1>a").click(function(){
-            $(this).next("ul").toggleClass("hide");
+            $(this).next("ul").toggleClass("hide1");
         });
     });
 </script>

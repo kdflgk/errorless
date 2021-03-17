@@ -156,7 +156,7 @@ def mood(sentence):
     attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
     pie = Pie("", title_pos="center", width=600)
     # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
-    pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=15,
+    pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=20,
             legend_orient='vertical', legend_pos='right', legend_text_size=14)
     ########################################################################
     # data = score.tolist()
@@ -276,6 +276,7 @@ def write(request):
             question = form.save(commit=False)
             question.create_date = timezone.now()
             question.author = request.user
+
             question.save()
             question.moodres, uri = mood(question.content)
             uri2 = uri.render_embed()

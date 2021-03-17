@@ -10,8 +10,8 @@ class Diary(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50)
     modify_date = models.DateTimeField(null=True, blank=True)
-    content = models.CharField(max_length=140)
-    moodres = models.CharField(max_length=140)
+    content = models.CharField(max_length=200)
+    moodres = models.CharField(max_length=200)
     create_date = models.DateTimeField()
 
     def __str__(self):

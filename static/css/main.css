@@ -1585,7 +1585,7 @@
 /* Type */
 
 	body {
-		background-color: #fff;
+		background-color: #fff; /*전체배경색*/
 		color: #999999;
 	}
 

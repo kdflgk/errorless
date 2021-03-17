@@ -42,6 +42,7 @@
     </div>
 
     <div>
+        <div class="card-text" style="white-space: pre-line;">{{ question.moodres }}</div>
         {% for jsfile_name in script_list %}
         <script src="{{host}}/{{jsfile_name}}.js"></script>
         {% endfor %}
