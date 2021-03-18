@@ -19,6 +19,7 @@ urlpatterns = [
     # path('mypage/', views.mypage, name='mypage'),
     path('mydiary/<int:question_id>/', views.detail, name='detail'),
     path('mydiary/delete/<int:question_id>/', views.diary_delete, name='diary_delete'),
+    path('about/',views.about, name='about'),
 
     # # 달력테스트
     # path('cal/', views.calendar_view, name="calendar"),

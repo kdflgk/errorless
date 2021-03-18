@@ -7,6 +7,7 @@
 <head>
 	<!-- Header -->
 	<header id="header" class="alt">
+<!--		<div class="logo"><a href="{% url 'mydiary:startup' %}"><img src="{% static 'images/test.jpg' %}" alt="" /></a></div>-->
 		<div class="logo"><a href="{% url 'mydiary:startup' %}"><span style="color:gray">너의 송마음</span></a></div>
 		<a href="{% url 'common:signup' %}">회원가입</a>
 		{% if user.is_authenticated %}
@@ -26,10 +27,11 @@
 		<li class="menu1">
 			<a>더보기</a>
 			<ul class="hide1">
-				<a href="{% url 'mydiary:write' %}">시</a><br>
+				<a href="{% url 'mydiary:about' %}">시</a><br>
 				<a href="{% url 'mydiary:startup' %}">영화</a>
 			</ul>
 		</li>
+		<li><a href="{% url 'mydiary:about' %}">about</a></li>
 	</ul>
 </nav>
 

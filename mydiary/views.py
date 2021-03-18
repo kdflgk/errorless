@@ -239,6 +239,51 @@ def recommend(sentence):
     song_indices = [i[0] for i in sim_scores]
 
     return df_rec.iloc[song_indices, 1:3]
+
+
+def recommend2(sentence):
+    score = prepro(sentence)
+    if score.argmax() == 0:
+        df_rec = lyric[lyric['label'] == 0]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 1:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 2:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 3:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 4:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 5:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+
+    df_rec.loc[len(df_rec)] = ['', '', '', sentence, '', '']
+    c = func(df_rec['lyric'][len(df_rec) - 1])
+    df_rec['lyric_clean'][len(df_rec) - 1] = ' '.join(c)
+
+    tfidf = TfidfVectorizer()
+    tfidf_matrix = tfidf.fit_transform(df_rec['lyric_clean'])
+
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+    indices = pd.Series(df_rec.index, index=df_rec['title']).drop_duplicates()
+
+    idx = indices['']
+
+    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+    sim_scores = sim_scores[1:6]
+
+    song_indices = [i[0] for i in sim_scores]
+
+    return df_rec.iloc[song_indices, 1:3]
 ######################################################
 
 
@@ -286,9 +331,14 @@ def write(request):
             sre = recom['singer']
             singlist = tre + " - " + sre
             print(singlist)
+            recom2 = recommend2(question.content)
+            tre2 = recom2['title']
+            sre2 = recom2['singer']
+            singlist2 = tre2 + " - " + sre2
+            print(singlist2)
             # return redirect('mydiary:main')
             context = {'form': form, 'data': uri2, "script_list": script_list,
-                       "host": REMOTE_HOST,'singlist': singlist}
+                       "host": REMOTE_HOST, 'singlist': singlist, 'singlist2': singlist2}
     else:
         form = DiaryForm()
         context = {'form': form}
@@ -333,3 +383,7 @@ def diary_delete(request, question_id):
         return redirect('mydiary:detail', question_id=question.id)
     question.delete()
     return redirect('mydiary:main')
+
+
+def about(request):
+    return render(request, 'mydiary/testabout.html')
