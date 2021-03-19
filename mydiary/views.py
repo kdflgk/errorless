@@ -34,6 +34,7 @@ import urllib, base64
 from pyecharts import Pie
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+import openpyxl
 ######################################################
 
 
@@ -108,6 +109,10 @@ with open('wordIndex.json') as json_file:
     tokenizer.word_index = word_index
 
 REMOTE_HOST = "https://pyecharts.github.io/assets/js"
+
+movie = pd.read_excel('영화 7장르 분류.xlsx')
+movie.drop(columns=['Unnamed: 0'], inplace=True)
+
 
 def sentence_preprocessing(sentence):
     new_sentence = spacing(sentence)
@@ -284,6 +289,37 @@ def recommend2(sentence):
     song_indices = [i[0] for i in sim_scores]
 
     return df_rec.iloc[song_indices, 1:3]
+
+
+def movie_recommend(sentence):
+    score = prepro(sentence)
+    print(score.argmax())
+    print("test")
+    if score.argmax() == 0:
+        df_rec = movie[(movie['장르'] == '멜로/로맨스') | (movie['장르'] == '드라마')]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 1:
+        df_rec = movie[movie['장르'] == '드라마']
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 2:
+        df_rec = movie[movie['장르'] == '코미디']
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 3:
+        df_rec = movie[(movie['장르'] == '어드벤처') | (movie['장르'] == '코미디')]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 4:
+        df_rec = movie[movie['장르'] == '판타지']
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 5:
+        df_rec = movie[(movie['장르'] == '액션') | (movie['장르'] == '스릴러')]
+        df_rec = df_rec.reset_index(drop=True)
+
+    print("test2")
+    recommend_movie = df_rec.sample(5)
+    print("test3")
+
+
+    return recommend_movie
 ######################################################
 
 
@@ -291,7 +327,7 @@ def startup(request):
     return render(request, 'mydiary/testmain.html')
 
 
-@login_required(login_url='common:login')
+# @login_required(login_url='common:login')
 def main(request):
     """
     목록 출력
@@ -310,7 +346,7 @@ def main(request):
     return render(request, 'mydiary/testdiarylist.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required()
 def write(request):
     """
     일기작성
@@ -349,7 +385,36 @@ def write(request):
     return render(request, 'mydiary/testwrite.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required()
+def movierecom(request):
+    """
+    일기작성
+    """
+    if request.method == 'POST':
+        form = DiaryForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.create_date = timezone.now()
+            question.author = request.user
+            question.save()
+            print(question.content)
+            mov = movie_recommend(question.content)
+            movlist = mov['제목'] + " - " + mov['장르']
+            print(movlist)
+            # movielist = mov['title'] +' - '
+            # return redirect('mydiary:main')
+            context = {'form': form, "host": REMOTE_HOST, 'movlist': movlist}
+    else:
+        form = DiaryForm()
+        context = {'form': form}
+        print(4)
+
+    # context={'form': form}
+    # return render(request, 'mydiary/writediary.html', context)
+    return render(request, 'mydiary/testmovie.html', context)
+
+
+@login_required()
 def detail(request, question_id):
     """
     내용 출력
@@ -372,7 +437,7 @@ def detail(request, question_id):
     return render(request, 'mydiary/testdetail.html', context)
 
 
-@login_required(login_url='common:login')
+# @login_required(login_url='common:login')
 def diary_delete(request, question_id):
     """
     삭제

@@ -16,14 +16,11 @@ urlpatterns = [
     path('', views.startup, name='startup'),
     path('main/', views.main, name='main'),
     path('write/', views.write, name='write'),
+    path('movie/', views.movierecom, name='movierecom'),
     # path('mypage/', views.mypage, name='mypage'),
     path('mydiary/<int:question_id>/', views.detail, name='detail'),
     path('mydiary/delete/<int:question_id>/', views.diary_delete, name='diary_delete'),
     path('about/',views.about, name='about'),
 
-    # # 달력테스트
-    # path('cal/', views.calendar_view, name="calendar"),
-    # path('mydiary/new/', views.event, name="new"),
-    # path('<int:event_id>', views.event, name="edit"),
-    # #
+
 ]

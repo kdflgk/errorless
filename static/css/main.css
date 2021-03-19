@@ -3449,7 +3449,7 @@
 			padding: 0 0.75em;
 			color: inherit;
 			text-decoration: none;
-			color: #FFF;
+			color: #000;
 		}
 
 			#header > a:hover {
@@ -3514,7 +3514,7 @@
 			-webkit-animation: none;
 			-ms-animation: none;
 			animation: none;
-			background-color: untransparent; /*네비게이션바 색상*/
+			background-color: transparent; /*네비게이션바 색상*/
 			box-shadow: none;
 			overflow: hidden;
 			position: fixed;

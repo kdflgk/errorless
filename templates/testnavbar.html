@@ -7,14 +7,15 @@
 <head>
 	<!-- Header -->
 	<header id="header" class="alt">
-<!--		<div class="logo"><a href="{% url 'mydiary:startup' %}"><img src="{% static 'images/test.jpg' %}" alt="" /></a></div>-->
+		<!--		<div class="logo"><a href="{% url 'mydiary:startup' %}"><img src="{% static 'images/test.jpg' %}" alt="" /></a></div>-->
 		<div class="logo"><a href="{% url 'mydiary:startup' %}"><span style="color:gray">너의 송마음</span></a></div>
-		<a href="{% url 'common:signup' %}">회원가입</a>
+		<!--		<a href="{% url 'common:signup' %}">회원가입</a>-->
 		{% if user.is_authenticated %}
 		<a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
-		<!--		<a href="{% url 'mydiary:profile' user.pk %}">마이페이지</a>-->
+		<a href="{% url 'mydiary:profile' user.pk %}">마이페이지</a>
 		{% else %}
-		<a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+		<!--		<a class="nav-link" id="loginbtn" href="{% url 'common:login' %}">로그인</a>-->
+		<a class="nav-link" id="loginbtn" href="#">로그인</a>
 		{% endif %}
 		<a href="#menu">Menu</a>
 	</header>
@@ -22,28 +23,102 @@
 
 <nav id="menu">
 	<ul class="links">
-		<li><a href="{% url 'mydiary:main' %}">글목록</a></li>
-		<li><a href="{% url 'mydiary:write' %}">글작성</a></li>
+		<li><a href="{% url 'mydiary:main' %}" id="diarylist">글목록</a></li>
+		<li><a href="{% url 'mydiary:write' %}" id="write">글작성</a></li>
 		<li class="menu1">
 			<a>더보기</a>
 			<ul class="hide1">
-				<a href="{% url 'mydiary:about' %}">시</a><br>
-				<a href="{% url 'mydiary:startup' %}">영화</a>
+				<a href="{% url 'mydiary:write' %}" id="write1">시</a><br>
+				<a href="{% url 'mydiary:movierecom' %}" id="movie">영화</a>
 			</ul>
 		</li>
-		<li><a href="{% url 'mydiary:about' %}">about</a></li>
+		<!--		<li><a href="{% url 'mydiary:about' %}">about</a></li>-->
 	</ul>
 </nav>
 
+<div class="loginfm" id="loginfm" style="display:none;">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" >
+	<form method="post" class="loginForm" action="{% url 'common:login' %}">
+		{% csrf_token %}
+		{% include "form_errors.html" %}
+		<h2>Login</h2>
+		<div class="idForm">
+			<input type="text" class="id" placeholder="ID" name="username" id="username"
+				   value="{{ form.username.value|default_if_none:'' }}">
+		</div>
+		<div class="passForm">
+			<input type="password" class="pw" placeholder="PW" name="password" id="password"
+				   value="{{ form.password.value|default_if_none:'' }}">
+		</div>
+		<button href="{% url 'mydiary:main' %}" type="submit" class="btn btn-primary" onclick="button()">
+			LOG IN
+		</button>
+		<div class="bottomText">
+			Don't you have ID? <a href="#" id="signupbtn">sign up</a>
+		</div>
+	</form>
+</div>
+
+<div class="signfm" id="signfm" style="display:none;">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" >
+	<form method="post" class="signupForm" action="{% url 'common:signup' %}">
+		{% csrf_token %}
+		{% include "form_errors.html" %}
+		<h2>Sign Up</h2>
+		<div class="idForm">
+			<input type="text" class="id" placeholder="ID" name="username" id="username1"
+				   value="{{ form.username.value|default_if_none:'' }}">
+		</div>
+		<div class="passForm">
+			<input type="password" class="pw" placeholder="PW" name="password1" id="password1"
+				   value="{{ form.password1.value|default_if_none:'' }}">
+		</div>
+		<div class="passcheckForm">
+			<input type="password" class="pw2" placeholder="PW Check" name="password2" id="password2"
+				   value="{{ form.password2.value|default_if_none:'' }}">
+		</div>
+		<div class="emailForm">
+			<input type="text" class="email" placeholder="E-mail" name="email" id="email"
+				   value="{{ form.email.value|default_if_none:'' }}">
+		</div>
+		<button href="{% url 'mydiary:main' %}" type="submit" class="btn2 btn-primary" onclick="button()">
+			SIGN UP
+		</button>
+		<div class="bottomText">
+			Do you have ID? <a href="#" id="loginbtn2">login</a>
+		</div>
+	</form>
+</div>
 
 <style>
     .menu1 a{cursor:pointer;}
     .menu1 .hide1{display:none;}
 </style>
+
 <script>
     $(document).ready(function(){
         $(".menu1>a").click(function(){
             $(this).next("ul").toggleClass("hide1");
         });
     });
+
+    $(function (){
+    	$("#loginbtn").click(function (){
+    	$("#loginfm").toggle();
+    	});
+    });
+
+    $(function (){
+    	$("#loginbtn2").click(function (){
+    	$("#signfm").hide();
+    	$("#loginfm").show();
+    	});
+    });
+
+    $(function (){
+    	$("#signupbtn").click(function (){
+    	$("#signfm").toggle();
+    	});
+    });
+
 </script>
