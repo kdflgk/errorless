@@ -3404,7 +3404,7 @@
 		background: rgba(0, 0, 0, 0.75);
 		color: #aed6f1;
 		cursor: default;
-		height: 3.25em;
+		height: 11em; /*네비게이션바 길이*/
 		left: 0;
 		line-height: 3.25em;
 		position: fixed;
@@ -3419,7 +3419,7 @@
 			height: inherit;
 			left: 1.25em;
 			line-height: inherit;
-			margin: 0;
+			margin-top: 30px; /*네비게이션바사진*/
 			padding: 0;
 			position: absolute;
 			top: 0;
@@ -3450,6 +3450,8 @@
 			color: inherit;
 			text-decoration: none;
 			color: #000;
+			margin-top: 30px; /*네비게이션바메뉴*/
+
 		}
 
 			#header > a:hover {
