@@ -33,64 +33,131 @@
 					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
 
 			</div>
-			<button type="submit" class="button alt" style="float:right; margin-top:20px">저장하기</button>
+			<button type="submit" class="button alt" id="save" style="float:right; margin-top:20px">저장하기</button>
 
 			<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
 		</div>
 
 		<div class="item" style="width: 800px;">
-			{% for jsfile_name in script_list %}
-			<script src="{{host}}/{{jsfile_name}}.js"></script>
-			{% endfor %}
-			{{ data|safe }}
+			<div class="imgpos" style="position:relative">
+				<div style="position: absolute; margin-left: 250px; margin-top: 150px;">
+					<!--					<img src="{% static 'images/행복.jpg' %}" alt="" height="100px" width="100px" />-->
+					{% if img == '행복' %}
+					<img src="{% static 'images/행복.jpg' %}" alt="" height="100px" width="100px"  />
+					{% elif img == '분노' %}
+					<img src="{% static 'images/분노.jpg' %}" alt="" height="100px" width="100px"  />
+					{% elif img == "슬픔" %}
+					<img src="{% static 'images/슬픔.jpg' %}" alt="" height="100px" width="100px"  />
+					{% elif img == '불안' %}
+					<img src="{% static 'images/불안.jpg' %}" alt="" height="100px" width="100px"  />
+					{% elif img == '놀라움' %}
+					<img src="{% static 'images/놀라움.jpg' %}" alt="" height="100px" width="100px"  />
+					{% elif img == '지루' %}
+					<img src="{% static 'images/지루.jpg' %}" alt="" height="100px" width="100px"  />
+					{% endif%}
+				</div>
+				<div style="position: absolute;">
+					{% for jsfile_name in script_list %}
+					<script src="{{host}}/{{jsfile_name}}.js"></script>
+					{% endfor %}
+					{{ data|safe }}
+				</div>
+			</div>
 		</div>
-
-
-
 
 		<div class="item1" id="item1">
 			<a id="close" style="float:right;margin-right:10px;font-size:30px;">X</a>
-			<a style="margin-left:350px; font-size:40px; font-weight:bold">playlist</a>
-			<div class="box">
-				{% for song in singlist2 %}
-				<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank" style="font-size:30px;">{{song}}</a></li>
+			<b style="margin-left:350px; font-size:40px; font-weight:bold;color:#ffffff">playlist</b>
+			<div class="box" id="#box">
+				{% for song in singlist %}
+				<li><a href='https://www.youtube.com/results?search_query={{song}}' target="_blank" style="font-size:30px;">{{song}}</a></li>
 				{% endfor %}
 			</div>
+			<div class="recombtn">
+				<a class="recom" style="font-size: 40px;margin-left:390px; font-weight:bold;"> &nbsp;&nbsp;&nbsp; > </a>
+				<a class="recom2" style="font-size: 40px;margin-left:390px; font-weight:bold; display:none;"> < </a>
+			</div>
 		</div>
+
 	</div>
-
-
 	<a class="button special" id="remsong" style=" margin-top:20px;font-size:20px;">노래추천받기</a>
 
-
 </form>
+<div id="loading">
+	<img id="loading-image" src="{% static 'images/loading.gif' %}" alt="Loading..." />
+</div>
 
-<!--		<div class="item1" id="item2">-->
-<!--			<a class="recom" style="font-size: 30px;">&lt;!&ndash;기분전환삼아서<br>&ndash;&gt;이런 노래는 어때??</a>-->
-<!--			<div class="box" style="display:none;">-->
-<!--				{% for song in singlist %}-->
-<!--				<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank">{{song}}</a></li>-->
-<!--				{% endfor %}-->
-<!--			</div>-->
-<!--		</div>-->
+<!--<div class="item1" id="item2">-->
+<!--	<div class="box" id="box2">-->
+<!--		<li><a>456</a></li>-->
+<!--		{% for song in singlist2 %}-->
+<!--		<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank">{{song}}</a></li>-->
+<!--		{% endfor %}-->
+<!--	</div>-->
+<!--</div>-->
 
+<style>
+#loading {
+width: 100%;
+height: 100%;
+top: 0px;
+left: 0px;
+position: fixed;
+display: block;
+opacity: 0.7;
+background-color: #fff;
+z-index: 99;
+text-align: center;
+}
+#loading-image {
+position: absolute;
+top: 35%;
+left: 35%;
+z-index: 100;
+}
+</style>
 
 {% endblock %}
 
 {% block script %}
 <script>
+	/* 노래추천창 띄우기 */
     $(document).ready(function(){
         $("#remsong").click(function(){
             $("#item1").slideToggle();
         });
     });
-
+	/* 노래추천창 닫기 */
     $(document).ready(function(){
         $("#close").click(function(){
             $("#item1").slideToggle();
         });
     });
 
+	/* 다른 리스트로 넘기기 */
+    $(document).ready(function(){
+        $(".recom").click(function(){
+        	$(".box").html(" {% for song in singlist2 %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
+			$(".recom2").show()
+			$(".recom").hide()
+		});
+	});
+
+	$(document).ready(function(){
+		$(".recom2").click(function(){
+        	$(".box").html("  {% for song in singlist %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
+			$(".recom").show()
+			$(".recom2").hide()
+		});
+	});
+
+	/* 결과출력중 로딩화면 보이게하기 */
+	$(window).load(function() {
+		$('#loading').hide();
+	});
+	$(window).submit(function(){
+		$('#loading').show();
+	});
 
 </script>
 {% endblock %}
@@ -99,3 +166,4 @@
 <!--            $(".recom").slideToggle("recom");-->
 <!--        });-->
 <!--    });-->
+

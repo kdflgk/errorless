@@ -47,7 +47,7 @@
 	<!-- Header -->
 	<header id="header" class="alt">
 		<div class="logo">
-			<a href="{% url 'mydiary:startup' %}"><img src="{% static 'images/test.gif' %}" alt="" /></a>
+			<a href="{% url 'mydiary:startup' %}" style="margin-left:50px; position:absolute"><img src="{% static 'images/test15.png' %}" alt=""/></a>
 		</div>
 		<style>
 
@@ -55,7 +55,7 @@
 		<div class="logo1" style="float: right;margin-top:30px;">
 			{% if user.is_authenticated %}
 			<a class="lg" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
-			<a href="{% url 'mydiary:profile' user.pk %}">마이페이지</a>
+<!--			<a href="{% url 'mydiary:profile' user.pk %}">마이페이지</a>-->
 			{% else %}
 			<!--		<a class="nav-link" id="loginbtn" href="{% url 'common:login' %}">로그인</a>-->
 			<a class="lg" id="loginbtn" href="#">로그인</a>
@@ -67,7 +67,7 @@
 						더보기
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'mydiary:write' %}">시</a>
+<!--						<a class="dropdown-item" href="{% url 'mydiary:write' %}">시</a>-->
 						<a class="dropdown-item" href="{% url 'mydiary:movierecom' %}">영화</a>
 					</div>
 				</div>

@@ -1568,7 +1568,9 @@
 	}
 
 	body {
-		background: #fff;
+		/* background: #fff; */
+		background-image:url(배경화면.jpg);
+		background-size:cover;
 	}
 
 		body.is-loading *, body.is-loading *:before, body.is-loading *:after {
@@ -3404,7 +3406,7 @@
 		background: rgba(0, 0, 0, 0.75);
 		color: #aed6f1;
 		cursor: default;
-		height: 11em; /*네비게이션바 길이*/
+		height: 10em; /*네비게이션바 길이*/
 		left: 0;
 		line-height: 3.25em;
 		position: fixed;

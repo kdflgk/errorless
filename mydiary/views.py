@@ -35,6 +35,8 @@ from pyecharts import Pie
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import openpyxl
+import PIL.Image as pilimg
+import plotly.express as px
 ######################################################
 
 
@@ -139,57 +141,61 @@ def mood(sentence):
     score = prepro(sentence)
     if score.argmax() == 0:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '행복, 즐거움')
+        a = "행복"
         print(result)
     if score.argmax() == 1:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '분노, 짜증')
+        a = "분노"
         print(result)
     if score.argmax() == 2:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '슬픔, 우울')
+        a = "슬픔"
         print(result)
     if score.argmax() == 3:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '두려움, 불안')
+        a = "불안"
         print(result)
     if score.argmax() == 4:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '놀라움, 충격')
+        a = "놀라움"
         print(result)
     if score.argmax() == 5:
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '지루, 따분')
+        a = "지루"
         print(result)
 
+    # data = score.tolist()
+    # v2 = list(itertools.chain.from_iterable(data))
+    # attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
+    # pie = Pie("", title_pos="center", width=600)
+    # # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
+    # pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=20,
+    #         legend_orient='vertical', legend_pos='right', legend_text_size=14)
+    ##################################################################################
     data = score.tolist()
     v2 = list(itertools.chain.from_iterable(data))
     attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
-    pie = Pie("", title_pos="center", width=600)
+    #     pie = Pie("현재 내 감정 상태는?", title_pos="center", width=600)
+    pie = Pie("현재 내 기분은?", width=600)
     # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
-    pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=20,
-            legend_orient='vertical', legend_pos='right', legend_text_size=14)
-    ########################################################################
-    # data = score.tolist()
-    # data = list(itertools.chain.from_iterable(data))
-    #
-    # labels = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
-    # colors = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0', '#00ccff', '#00ff22']
-    # wedgeprops = {'width': 0.7, 'edgecolor': 'w', 'linewidth': 5}
-    # explode = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-    #
-    # plt.pie(data, labels=labels, autopct='%.1f%%', startangle=260, counterclock=False, colors=colors,
-    #         wedgeprops=wedgeprops, explode=explode)
-    #
-    # fig = pie.gcf()
-    # buf = io.BytesIO()
-    # fig.savefig(buf, format='png')
-    # buf.seek(0)
-    # string = base64.b64encode(buf.read())
-    # uri = urllib.parse.quote(string)
-    # plt.close(fig)
+    #     pie.add("",attr, v2, center=[45,50], radius=[30,75], is_label_show=True, label_text_size=20,
+    #         legend_orient='vertical', legend_pos='right', legend_text_size=14, label_color = colors)
+    #     pie.add("",attr, v2, center=[45,50], radius=[30,75], is_label_show=True, label_text_size=20,
+    #         legend_orient='vertical', legend_pos='right', legend_text_size=14)
 
-    return result, pie
+    pie.add("", attr, v2, is_label_show=True,
+            radius=[30, 65],
+            legend_top="95%",
+            legend_text_size=14,
+            label_text_size=14)
+
+    return result, pie, a
 
 
 def okt_tokenize(sent):
     words = okt.pos(sent)
     words = [w for w in words if ('Adjective' in w or 'Verb' in w or 'Noun' in w)]
-#     words = [w for w in words if ('Adjective' in w or 'Verb' in w )]
+    #     words = [w for w in words if ('Adjective' in w or 'Verb' in w )]
     return words
 
 
@@ -359,7 +365,8 @@ def write(request):
             question.author = request.user
 
             question.save()
-            question.moodres, uri = mood(question.content)
+            question.moodres, uri, img = mood(question.content)
+            print(img)
             uri2 = uri.render_embed()
             script_list = uri.get_js_dependencies()
             recom = recommend(question.content)
@@ -374,7 +381,7 @@ def write(request):
             print(singlist2)
             # return redirect('mydiary:main')
             context = {'form': form, 'data': uri2, "script_list": script_list,
-                       "host": REMOTE_HOST, 'singlist': singlist, 'singlist2': singlist2}
+                       "host": REMOTE_HOST, 'singlist': singlist, 'singlist2': singlist2,'img': img}
     else:
         form = DiaryForm()
         context = {'form': form}

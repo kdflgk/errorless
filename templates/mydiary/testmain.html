@@ -4,7 +4,7 @@
 {% load diary_filter %}
 {% load static %}
 <head>
-<!--	<link rel="stylesheet" href="{% static 'css/main.css' %}" />-->
+      <!--	<link rel="stylesheet" href="{% static 'css/main.css' %}" />-->
 
 </head>
 
@@ -33,14 +33,17 @@
     text-align: center;
     overflow: hidden;
 }
+#header.alt {
+background-color: transparent;
+}
 </style>
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- Banner -->
 <div class="con">
       <video id="video" preload="auto" autoplay="true"  muted="muted" volume="0">
-      <source src="{% static 'css/mainvideo.mp4' %}" type="video/mp4">
+            <source src="{% static 'css/mainvideo.mp4' %}" type="video/mp4">
 
-</video>
+      </video>
 
 </div>
 
