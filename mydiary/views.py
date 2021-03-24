@@ -430,7 +430,7 @@ def detail(request, question_id):
     question.author = request.user
     ###################
     # sentiment_predict_pie_graph(question.content)
-    question.moodres, uri = mood(question.content)
+    question.moodres, uri, img = mood(question.content)
     uri2 = uri.render_embed()
     script_list = uri.get_js_dependencies()
     ###################

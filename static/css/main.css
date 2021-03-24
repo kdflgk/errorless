@@ -1,7 +1,9 @@
 @charset "UTF-8";
 @import url(font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Scope+One|Trocchi");
-
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap');
 /*
 	Urban by TEMPLATED
 	templated.co @templatedco
@@ -1569,7 +1571,7 @@
 
 	body {
 		/* background: #fff; */
-		background-image:url(배경화면.jpg);
+		/*background-image:url(배경화면.jpg);/* 전체배경 */
 		background-size:cover;
 	}
 
@@ -1592,7 +1594,10 @@
 	}
 
 	body, input, select, textarea {
-		font-family: "Scope One", serif;
+		/*font-family: "Scope One", serif;*/
+		/*font-family: 'Black Han Sans', sans-serif; /* 전체 폰트변경 */
+		/*font-family: 'Nanum Brush Script', cursive;*/
+		font-family: 'Noto Serif KR', serif;
 		font-size: 13pt;
 		font-weight: 300;
 		line-height: 1.65;
@@ -1990,7 +1995,7 @@
 		button.alt,
 		.button.alt {
 			background-color: transparent;
-			box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+			/*box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);*/
 			color: #000 !important;
 		}
 
@@ -2221,7 +2226,7 @@
 		appearance: none;
 		border-radius: 4px;
 		border: none;
-		border: solid 1px;
+		/*border: solid 1px;*/
 		color: inherit;
 		display: block;
 		outline: 0;
@@ -2374,7 +2379,7 @@
 	input[type="email"],
 	select,
 	textarea {
-		background: rgba(0, 0, 0, 0.075);
+		background: rgba(255, 255, 255, 0);
 		border-color: rgba(0, 0, 0, 0.1);
 	}
 
@@ -2416,7 +2421,7 @@
 	}
 
 	::-webkit-input-placeholder {
-		color: #bfbfbf !important;
+		color: rgba(50,50,50,0.5) !important;
 	}
 
 	:-moz-placeholder {
@@ -2803,10 +2808,11 @@
 
 		table td {
 			padding: 0.75em 0.75em;
+			font-size:20px;
 		}
 
 		table th {
-			font-size: 0.9em;
+			font-size: 30px;
 			font-weight: 700;
 			padding: 0 0.75em 0.75em 0.75em;
 			text-align: left;
