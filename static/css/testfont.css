@@ -1,0 +1,220 @@
+@font-face {
+font-family: 'BMDOHYEON';
+src: url("/static/fonts/dfont/BMDOHYEON_TTF.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'BMHANNA_11YRS';
+src: url("/static/fonts/dfont/BMHANNA_11YRS_TTF.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'BMHANNAAIR';
+src: url("/static/fonts/dfont/BMHANNAAIR_TTF.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'BMHANNAPRO';
+src: url("/static/fonts/dfont/BMHANNAPRO.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'BMJUA';
+src: url("/static/fonts/dfont/BMJUA_TTF.TTF") format('truetype');
+}
+
+/*5*/
+
+@font-face {
+font-family: 'BMKIRANGHAERANG';
+src: url("/static/fonts/dfont/BMKIRANGHAERANG-TTF.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'BMYEONSUNG';
+src: url("/static/fonts/dfont/BMYEONSUNG_TTF.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'DESIGNHOUSEBOLD';
+src: url("/static/fonts/dfont/DESIGNHOUSEBOLD.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'DESIGNHOUSELIGHT';
+src: url("/static/fonts/dfont/DESIGNHOUSELIGHT.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'INTERPARKGOTHICLIGHT';
+src: url("/static/fonts/dfont/INTERPARKGOTHICLIGHT.TTF") format('truetype');
+}
+
+/*10*/
+
+@font-face {
+font-family: 'JEJUGOTHIC';
+src: url("/static/fonts/dfont/JEJUGOTHIC.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'KHNPHDBOLD';
+src: url("/static/fonts/dfont/KHNPHDBOLD.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'KHNPHDREGULAR';
+src: url("/static/fonts/dfont/KHNPHDREGULAR.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'KHNPHUREGULAR';
+src: url("/static/fonts/dfont/KHNPHUREGULAR.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPOAGAPE';
+src: url("/static/fonts/dfont/MAPOAGAPE.TTF") format('truetype');
+}
+
+/*15*/
+
+@font-face {
+font-family: 'MAPOBACKPACKING';
+src: url("/static/fonts/dfont/MAPOBACKPACKING.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPODACAPO';
+src: url("/static/fonts/dfont/MAPODACAPO.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPODPP';
+src: url("/static/fonts/dfont/MAPODPP.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPOFLOWERISLAND';
+src: url("/static/fonts/dfont/MAPOFLOWERISLAND.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPOGOLDENPIER';
+src: url("/static/fonts/dfont/MAPOGOLDENPIER.TTF") format('truetype');
+}
+
+/*20*/
+
+@font-face {
+font-family: 'MAPOHONGDAEFREEDOM';
+src: url("/static/fonts/dfont/MAPOHONGDAEFREEDOM.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPOMAPONARU';
+src: url("/static/fonts/dfont/MAPOMAPONARU.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'MAPOPEACEFULL';
+src: url("/static/fonts/dfont/MAPOPEACEFULL.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMBRUSH1';
+src: url("/static/fonts/dfont/NANUMBRUSH (1).TTF") format('truetype');
+}
+
+@font-face {
+font-family: "NANUMBRUSH2";
+src: url("/static/fonts/dfont/NANUMBRUSH (2).TTF") format('truetype');
+font-weight:bold;
+}
+
+/*25*/
+
+@font-face {
+font-family: 'NANUMBRUSH';
+src: url("/static/fonts/dfont/NANUMBRUSH.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMGOTHIC';
+src: url("/static/fonts/dfont/NANUMGOTHIC.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMGOTHICEXTRABOLD';
+src: url("/static/fonts/dfont/NANUMGOTHICEXTRABOLD.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMGOTHICLIGHT';
+src: url("/static/fonts/dfont/NANUMGOTHICLIGHT.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMPEN';
+src: url("/static/fonts/dfont/NANUMPEN.TTF") format('truetype');
+}
+
+/*30*/
+
+@font-face {
+font-family: 'NANUMSQUAREB';
+src: url("/static/fonts/dfont/NANUMSQUAREB.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMSQUAREEB';
+src: url("/static/fonts/dfont/NANUMSQUAREEB.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMSQUAREL';
+src: url("/static/fonts/dfont/NANUMSQUAREL.TTF") format('truetype');
+}
+
+@font-face {
+font-family: 'NANUMSQUARER';
+src: url("/static/fonts/dfont/NANUMSQUARER.TTF") format('truetype');
+}
+
+@font-face {
+font-family: '경기천년바탕_BOLD';
+src: url("/static/fonts/dfont/경기천년바탕_BOLD.TTF") format('truetype');
+}
+
+/*35*/
+
+@font-face {
+font-family: '경기천년바탕_REGULAR';
+src: url("/static/fonts/dfont/경기천년바탕_REGULAR.TTF") format('truetype');
+}
+
+@font-face {
+font-family: '경기천년제목_BOLD';
+src: url("/static/fonts/dfont/경기천년제목_BOLD.TTF") format('truetype');
+}
+
+@font-face {
+font-family: '경기천년제목_LIGHT';
+src: url("/static/fonts/dfont/경기천년제목_LIGHT.TTF") format('truetype');
+}
+
+@font-face {
+font-family: '경기천년제목_MEDIUM';
+src: url("/static/fonts/dfont/경기천년제목_MEDIUM.TTF") format('truetype');
+}
+
+@font-face {
+font-family: '경기천년제목V_BOLD';
+src: url("/static/fonts/dfont/경기천년제목V_BOLD.TTF") format('truetype');
+}
+
+/*40*/
+@font-face {
+font-family: 'consola';
+src: url("/static/fonts/dfont/consola.TTF") format('truetype');
+}

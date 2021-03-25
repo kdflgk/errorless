@@ -176,7 +176,7 @@ def mood(sentence):
     v2 = list(itertools.chain.from_iterable(data))
     attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
     #     pie = Pie("현재 내 감정 상태는?", title_pos="center", width=600)
-    pie = Pie("현재 내 기분은?", width=600)
+    pie = Pie("",width=600)
     # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
     #     pie.add("",attr, v2, center=[45,50], radius=[30,75], is_label_show=True, label_text_size=20,
     #         legend_orient='vertical', legend_pos='right', legend_text_size=14, label_color = colors)
@@ -344,7 +344,7 @@ def main(request):
     # 현재 로그인한 사용자의 글만 출력하고 날짜순으로 정렬
     question_list = Diary.objects.order_by('-create_date').filter(author=request.user)
 
-    paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
+    paginator = Paginator(question_list, 8)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
 
     context = {'question_list': page_obj}

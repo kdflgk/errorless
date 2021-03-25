@@ -30,27 +30,28 @@
 					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
 
 			</div>
-			<button type="submit" class="button alt" id="save" style="float:right; margin-top:20px">저장하기</button>
+			<button type="submit" class="button alt" id="save" style="float:right; margin-top:20px">감성읽기</button>
 
 			<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
 		</div>
 
 		<div class="item" style="width: 400px; margin-left:10px;">
+			<a>현재 내 기분은?</a>
 			<div class="imgpos" style="position:relative">
-				<div style="position: absolute; margin-left: 250px; margin-top: 150px;">
-					<!--					<img src="{% static 'images/행복.jpg' %}" alt="" height="100px" width="100px" />-->
+				<div class="emotion" style="position: absolute; margin-left: 228px; margin-top: 129px;">
+<!--	<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px" />-->
 					{% if img == '행복' %}
-					<img src="{% static 'images/행복.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '분노' %}
-					<img src="{% static 'images/분노.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/분노1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == "슬픔" %}
-					<img src="{% static 'images/슬픔.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/슬픔1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '불안' %}
-					<img src="{% static 'images/불안.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/불안1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '놀라움' %}
-					<img src="{% static 'images/놀라움.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/놀라움1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '지루' %}
-					<img src="{% static 'images/지루.jpg' %}" alt="" height="100px" width="100px"  />
+					<img src="{% static 'images/지루1.png' %}" alt="" height="142px" width="142px"  />
 					{% endif%}
 				</div>
 				<div style="position: absolute;">
