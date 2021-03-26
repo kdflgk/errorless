@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="{% static 'css/writecss.css' %}" />
 <form method="post" class="post-form my-3">
 	<div class="container">
-
 		<div class="item" style="width: 500px;">
 			{% csrf_token %}
 			<!-- 오류표시 Start -->
@@ -30,13 +29,13 @@
 					  id="content" placeholder="내용을 입력하세요" rows="10" >{{ form.content.value|default_if_none:'' }}</textarea>
 
 			</div>
-			<button type="submit" class="button alt" id="save" style="float:right; margin-top:20px">감성읽기</button>
+			<button type="submit" class="button alt" id="save" style="float:right; margin-top:0px; font-size: 20px; font-family: 'consola';">감성읽기</button>
 
 			<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
 		</div>
 
 		<div class="item" style="width: 400px; margin-left:10px;">
-			<a>현재 내 기분은?</a>
+			<a style="color: #000000; font-family: 'BMJUA'; cursor:default;">현재 내 기분은?</a>
 			<div class="imgpos" style="position:relative">
 				<div class="emotion" style="position: absolute; margin-left: 228px; margin-top: 129px;">
 <!--	<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px" />-->
@@ -65,15 +64,15 @@
 
 		<div class="item1" id="item1">
 			<a id="close" style="float:right;margin-right:10px;font-size:30px;">X</a>
-			<b style="margin-left:350px; font-size:40px; font-weight:bold;color:#ffffff">playlist</b>
+			<b id="title" style="margin-left:350px; font-size:40px; font-weight:bold;color:#ffffff">&nbsp;&nbsp;&nbsp;맞춤추천</b>
 			<div class="box" id="#box">
 				{% for song in singlist %}
 				<li><a href='https://www.youtube.com/results?search_query={{song}}' target="_blank" style="font-size:30px;">{{song}}</a></li>
 				{% endfor %}
 			</div>
 			<div class="recombtn">
-				<a class="recom" style="font-size: 40px;margin-left:390px; font-weight:bold;"> &nbsp;&nbsp;&nbsp; > </a>
-				<a class="recom2" style="font-size: 40px;margin-left:390px; font-weight:bold; display:none;"> < </a>
+				<a class="recom" style="font-size: 40px;margin-left:420px; font-weight:bold;"> &nbsp;&nbsp; > </a>
+				<a class="recom2" style="font-size: 40px;margin-left:420px; font-weight:bold; display:none;"> < </a>
 			</div>
 		</div>
 
@@ -138,6 +137,7 @@ z-index: 100;
         	$(".box").html(" {% for song in singlist2 %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
 			$(".recom2").show()
 			$(".recom").hide()
+			$("#title").html("이런건어때요?")
 		});
 	});
 
@@ -146,6 +146,7 @@ z-index: 100;
         	$(".box").html("  {% for song in singlist %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
 			$(".recom").show()
 			$(".recom2").hide()
+			$("#title").html("&nbsp;&nbsp;&nbsp;맞춤추천")
 		});
 	});
 

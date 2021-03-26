@@ -82,6 +82,7 @@ src: url("/static/fonts/dfont/MAPOAGAPE.TTF") format('truetype');
 @font-face {
 font-family: 'MAPOBACKPACKING';
 src: url("/static/fonts/dfont/MAPOBACKPACKING.TTF") format('truetype');
+unicode-range:U+AC00-U+D7A3;
 }
 
 @font-face {
@@ -217,4 +218,9 @@ src: url("/static/fonts/dfont/경기천년제목V_BOLD.TTF") format('truetype');
 @font-face {
 font-family: 'consola';
 src: url("/static/fonts/dfont/consola.TTF") format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    unicode-range:U+0041-005A, U+0061-007A, U+0030-0039;
 }

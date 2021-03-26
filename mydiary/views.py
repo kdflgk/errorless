@@ -300,7 +300,6 @@ def recommend2(sentence):
 def movie_recommend(sentence):
     score = prepro(sentence)
     print(score.argmax())
-    print("test")
     if score.argmax() == 0:
         df_rec = movie[(movie['장르'] == '멜로/로맨스') | (movie['장르'] == '드라마')]
         df_rec = df_rec.reset_index(drop=True)
@@ -322,8 +321,7 @@ def movie_recommend(sentence):
 
     print("test2")
     recommend_movie = df_rec.sample(5)
-    print("test3")
-
+    print("recommend_movie")
 
     return recommend_movie
 ######################################################
@@ -407,10 +405,11 @@ def movierecom(request):
             print(question.content)
             mov = movie_recommend(question.content)
             movlist = mov['제목'] + " - " + mov['장르']
+            movn = mov['제목']
             print(movlist)
             # movielist = mov['title'] +' - '
             # return redirect('mydiary:main')
-            context = {'form': form, "host": REMOTE_HOST, 'movlist': movlist}
+            context = {'form': form, "host": REMOTE_HOST, 'movlist': movlist,'movn': movn,}
     else:
         form = DiaryForm()
         context = {'form': form}
@@ -439,7 +438,13 @@ def detail(request, question_id):
     sre = recom['singer']
     singlist = tre + " - " + sre
     ###################
-    context = {'question': question, 'data': uri2, "script_list": script_list, "host": REMOTE_HOST, 'singlist': singlist}
+    recom2 = recommend2(question.content)
+    tre2 = recom2['title']
+    sre2 = recom2['singer']
+    singlist2 = tre2 + " - " + sre2
+    ###################
+    context = {'question': question, 'data': uri2, "script_list": script_list, "host": REMOTE_HOST,
+               'singlist': singlist, 'singlist2': singlist2, 'img': img}
     # return render(request, 'mydiary/detail.html', context)
     return render(request, 'mydiary/testdetail.html', context)
 

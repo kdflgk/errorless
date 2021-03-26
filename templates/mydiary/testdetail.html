@@ -3,63 +3,102 @@
 {% block content %}
 {% load static %}
 
-<style>
-.container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(40%, auto));
-	gap: 50px;
-}
-.card{
-    grid-gap: 50px;
-}
-</style>
+<!--<style>-->
+<!--.container {-->
+<!--	display: grid;-->
+<!--	grid-template-columns: repeat(auto-fill, minmax(40%, auto));-->
+<!--	gap: 50px;-->
+<!--}-->
+<!--.card{-->
+<!--    grid-gap: 50px;-->
+<!--}-->
+<!--</style>-->
 
 {% for jsfile_name in script_list %}
 <script src="{{host}}/{{jsfile_name}}.js"></script>
 {% endfor %}
 
-<div class="container my-3" style="padding:100px">
+<link rel="stylesheet" href="{% static 'css/writecss.css' %}" />
+<form method="post" class="post-form my-3">
+    <div class="container">
+        <div class="item" style="width: 500px;">
+            {% csrf_token %}
+            <!-- 오류표시 Start -->
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for field in form %}
+                {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!-- 오류표시 End -->
+            <div class="card my-3">
+                <h2 class="border-bottom py-2" style="margin-bottom: 100px;">{{ question.subject }}</h2>
+                <div class="card-body">
+                    <div class="card-text" style="white-space: pre-line;font-size:30px;color:#000000;">{{ question.content }}</div>
+                    <div class="d-flex justify-content-end">
+                        <div class="badge badge-light p-2">
+                            {{ question.create_date }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <button type="submit" class="button alt" id="save" style="float:right; margin-top:300px; font-size: 20px; font-family: 'consola';">감성읽기</button>-->
+                <a href="#" class="delete button alt" style="float:right; margin-top:200px; font-size: 20px; font-family: 'consola';"
+                   data-uri="{% url 'mydiary:diary_delete' question.id  %}" style="width:100px">삭제</a>
 
-    <div class="card my-3">
-        <h2 class="border-bottom py-2">{{ question.subject }}</h2>
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
-            <div class="d-flex justify-content-end">
-                <div class="badge badge-light p-2">
-                    {{ question.create_date }}
+            <!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
+        </div>
+
+        <div class="item" style="width: 400px; margin-left:10px;">
+            <a style="color: #000000; font-family: 'BMJUA'; cursor:default;">현재 내 기분은?</a>
+            <div class="imgpos" style="position:relative">
+                <div class="emotion" style="position: absolute; margin-left: 228px; margin-top: 129px;">
+                    <!--	<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px" />-->
+                    {% if img == '행복' %}
+                    <img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px"  />
+                    {% elif img == '분노' %}
+                    <img src="{% static 'images/분노1.png' %}" alt="" height="142px" width="142px"  />
+                    {% elif img == "슬픔" %}
+                    <img src="{% static 'images/슬픔1.png' %}" alt="" height="142px" width="142px"  />
+                    {% elif img == '불안' %}
+                    <img src="{% static 'images/불안1.png' %}" alt="" height="142px" width="142px"  />
+                    {% elif img == '놀라움' %}
+                    <img src="{% static 'images/놀라움1.png' %}" alt="" height="142px" width="142px"  />
+                    {% elif img == '지루' %}
+                    <img src="{% static 'images/지루1.png' %}" alt="" height="142px" width="142px"  />
+                    {% endif%}
+                </div>
+                <div style="position: absolute;">
+                    {% for jsfile_name in script_list %}
+                    <script src="{{host}}/{{jsfile_name}}.js"></script>
+                    {% endfor %}
+                    {{ data|safe }}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card my-3" >맞춤추천
-        <div class="box">
-            <ol>
-                {% for song in singlist %}
-                <li>{{song}}</li>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
 
-    <div>
-        <div class="card-text" style="white-space: pre-line;">{{ question.moodres }}</div>
-        {% for jsfile_name in script_list %}
-        <script src="{{host}}/{{jsfile_name}}.js"></script>
-        {% endfor %}
-        {{ data|safe }}
-    </div>
-    <div class="card my-3">기분전환
-        <div class="box">
-            <ol>
-                {% for song in singlist2 %}
-                <li>{{song}}</li>
+        <div class="item1" id="item1">
+            <a id="close" style="float:right;margin-right:10px;font-size:30px;">X</a>
+            <b id="title" style="margin-left:350px; font-size:40px; font-weight:bold;color:#ffffff">&nbsp;&nbsp;&nbsp;맞춤추천</b>
+            <div class="box" id="#box">
+                {% for song in singlist %}
+                <li><a href='https://www.youtube.com/results?search_query={{song}}' target="_blank" style="font-size:30px;">{{song}}</a></li>
                 {% endfor %}
-            </ol>
+            </div>
+            <div class="recombtn">
+                <a class="recom" style="font-size: 40px;margin-left:420px; font-weight:bold;"> &nbsp;&nbsp; > </a>
+                <a class="recom2" style="font-size: 40px;margin-left:420px; font-weight:bold; display:none;"> < </a>
+            </div>
         </div>
+
     </div>
-    <a href="#" class="delete button alt"
-       data-uri="{% url 'mydiary:diary_delete' question.id  %}" style="width:100px">삭제</a>
-</div>
+    <a class="button special" id="remsong" style=" margin-top:20px;font-size:20px;">추천노래</a>
+
+</form>
 
 
 
@@ -74,5 +113,37 @@ $(document).ready(function(){
         }
     });
 });
+/* 노래추천창 띄우기 */
+    $(document).ready(function(){
+        $("#remsong").click(function(){
+            $("#item1").slideToggle();
+        });
+    });
+	/* 노래추천창 닫기 */
+    $(document).ready(function(){
+        $("#close").click(function(){
+            $("#item1").slideToggle();
+        });
+    });
+
+	/* 다른 리스트로 넘기기 */
+    $(document).ready(function(){
+        $(".recom").click(function(){
+        	$(".box").html(" {% for song in singlist2 %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
+			$(".recom2").show()
+			$(".recom").hide()
+			$("#title").html("이런건어때요?")
+		});
+	});
+
+	$(document).ready(function(){
+		$(".recom2").click(function(){
+        	$(".box").html("  {% for song in singlist %} <li><a href='https://www.youtube.com/results?search_query={{song}}' target='_blank' style='font-size:30px;'>{{song}}</a></li>	{% endfor %} ");
+			$(".recom").show()
+			$(".recom2").hide()
+			$("#title").html("&nbsp;&nbsp;&nbsp;맞춤추천")
+		});
+	});
 </script>
 {% endblock %}
+
