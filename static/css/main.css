@@ -2026,8 +2026,10 @@
 		button.alt,
 		.button.alt {
 			background-color: transparent;
-			box-shadow: inset 2px 2px 2px 2px rgb(0 0 0 / 50%);
+			box-shadow: 3px 3px 2px 2px rgb(0 0 0 / 50%);
 			color: #000000 !important;
+			height: 50px;
+			width: 150px;
 		}
 
 			input[type="submit"].alt:hover,
