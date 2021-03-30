@@ -3,13 +3,8 @@
 {% extends 'testbase.html' %}
 {% load diary_filter %}
 {% load static %}
-<head>
-      <!--	<link rel="stylesheet" href="{% static 'css/main.css' %}" />-->
-
-</head>
 
 {% block content %}
-<!-- --------------------------------------------------------------------------------------------------- -->
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 <style>
@@ -37,8 +32,7 @@
 background-color: transparent;
 }
 </style>
-<!-- --------------------------------------------------------------------------------------------------- -->
-<!-- Banner -->
+
 <div class="con">
       <video id="video" preload="auto" autoplay="true"  muted="muted" volume="0">
             <source src="{% static 'css/mainvideo.mp4' %}" type="video/mp4">
@@ -46,16 +40,4 @@ background-color: transparent;
       </video>
 
 </div>
-
-<!--<section id="banner">-->
-<!--	<div class="inner">-->
-<!--		<header>-->
-<!--			<h1>너의 송마음을 들려줘</h1>-->
-<!--			<p>-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br />-->
-<!--			</p>-->
-<!--		</header>-->
-<!--		&lt;!&ndash;		<a href="#main" class="button big scrolly">Learn More</a>&ndash;&gt;-->
-<!--	</div>-->
-<!--</section>-->
-
 {% endblock %}

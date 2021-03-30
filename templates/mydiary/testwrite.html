@@ -31,14 +31,12 @@
 			</div>
 			<button type="submit" class="button alt" id="save" style="float:right; margin-top:0px; font-size: 20px;">감성읽기</button>
 
-			<!--			<button type="submit" class="button special" style="float:right; margin-right:25px; margin-top:20px">영화</button>-->
 		</div>
 
 		<div class="item" style="width: 400px; margin-left:10px;">
 			<a style="color: #000000; font-family: 'BMJUA'; cursor:default;font-size: 20px;">현재 내 기분은?</a>
 			<div class="imgpos" style="position:relative">
 				<div class="emotion" style="position: absolute; margin-left: 228px; margin-top: 129px;">
-<!--	<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px" />-->
 					{% if img == '행복' %}
 					<img src="{% static 'images/행복1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '분노' %}
@@ -51,6 +49,8 @@
 					<img src="{% static 'images/놀라움1.png' %}" alt="" height="142px" width="142px"  />
 					{% elif img == '지루' %}
 					<img src="{% static 'images/지루1.png' %}" alt="" height="142px" width="142px"  />
+					{% elif img == '창피' %}
+					<img src="{% static 'images/창피1.png' %}" alt="" height="142px" width="142px"  />
 					{% endif%}
 				</div>
 				<div style="position: absolute;">
@@ -83,15 +83,6 @@
 <div id="loading">
 	<img id="loading-image" src="{% static 'images/loading.gif' %}" alt="Loading..." />
 </div>
-
-<!--<div class="item1" id="item2">-->
-<!--	<div class="box" id="box2">-->
-<!--		<li><a>456</a></li>-->
-<!--		{% for song in singlist2 %}-->
-<!--		<li><a href="https://www.youtube.com/results?search_query={{song}}" target="_blank">{{song}}</a></li>-->
-<!--		{% endfor %}-->
-<!--	</div>-->
-<!--</div>-->
 
 <style>
 #loading {
@@ -160,9 +151,3 @@ z-index: 100;
 
 </script>
 {% endblock %}
-
-<!--$(".item>button").click(function(){-->
-<!--            $(".recom").slideToggle("recom");-->
-<!--        });-->
-<!--    });-->
-

@@ -27,23 +27,3 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=64)
     profile_photo = models.ImageField(upload_to='static/images',blank=True)                 # 값을 채워넣지 않아도 되는 속성.
 
-
-# # 달력 테스트
-# class Event(models.Model):
-#     start_time = models.DateTimeField("시작시간")
-#     end_time = models.DateTimeField("마감시간")
-#     title = models.CharField("이벤트 이름", max_length=50)
-#     description = models.TextField("상세")
-#
-#     class Meta:
-#         verbose_name = "이벤트 데이터"
-#         verbose_name_plural = "이벤트 데이터"
-#
-#     def __str__(self):
-#         return self.title
-#
-#     @property
-#     def get_html_url(self):
-#         url = reverse('edit', args=(self.id,))
-#         return f'<a href="{url}"> {self.title} </a>'
-

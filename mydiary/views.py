@@ -65,7 +65,6 @@ class ProfileUpdateView(View): # 간단한 View클래스를 상속 받았으므�
             profile_form = ProfileForm()
 
         return render(request, 'mydiary/updateprofile.html', {"user_form": user_form, "profile_form": profile_form})
-        # return render(request, 'mydiary/testmypage.html', {"user_form": user_form, "profile_form": profile_form})
 
     # 프로필 편집에서 실제 수정(저장) 버튼을 눌렀을 때 넘겨받은 데이터를 저장하는 post 메소드
     def post(self, request):
@@ -89,6 +88,7 @@ class ProfileUpdateView(View): # 간단한 View클래스를 상속 받았으므�
             profile.save()
 
         return redirect('mydiary:profile', pk=request.user.pk)  # 수정된 화면 보여주기
+
 
 # 딥러닝 ##############################################
 okt = Okt()
@@ -163,25 +163,15 @@ def mood(sentence):
         result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '지루, 따분')
         a = "지루"
         print(result)
+    if score.argmax() == 6:
+        result = '{:.2f}% 확률로 {} 감정입니다.\n'.format(np.max(score) * 100, '창피, 민망')
+        a = "창피"
+        print(result)
 
-    # data = score.tolist()
-    # v2 = list(itertools.chain.from_iterable(data))
-    # attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
-    # pie = Pie("", title_pos="center", width=600)
-    # # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
-    # pie.add("", attr, v2, center=[45, 50], radius=[30, 75], is_label_show=True, label_text_size=20,
-    #         legend_orient='vertical', legend_pos='right', legend_text_size=14)
-    ##################################################################################
     data = score.tolist()
     v2 = list(itertools.chain.from_iterable(data))
-    attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring']
-    #     pie = Pie("현재 내 감정 상태는?", title_pos="center", width=600)
+    attr = ['happy', 'angry', 'sad', 'fear', 'surprise', 'boring','embarrassing']
     pie = Pie("",width=600)
-    # pie.add("A", attr, v1, center=[25, 50], is_random=True, radius=[30, 75], rosetype='radius')
-    #     pie.add("",attr, v2, center=[45,50], radius=[30,75], is_label_show=True, label_text_size=20,
-    #         legend_orient='vertical', legend_pos='right', legend_text_size=14, label_color = colors)
-    #     pie.add("",attr, v2, center=[45,50], radius=[30,75], is_label_show=True, label_text_size=20,
-    #         legend_orient='vertical', legend_pos='right', legend_text_size=14)
 
     pie.add("", attr, v2, is_label_show=True,
             radius=[30, 65],
@@ -227,6 +217,9 @@ def recommend(sentence):
     if score.argmax() == 5:
         df_rec = lyric[lyric['label'] == 0]
         df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 6:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
 
     df_rec.loc[len(df_rec)] = ['', '', '', sentence, '', '']
     c = func(df_rec['lyric'][len(df_rec) - 1])
@@ -270,6 +263,9 @@ def recommend2(sentence):
         df_rec = lyric[lyric['label'] == 1]
         df_rec = df_rec.reset_index(drop=True)
     if score.argmax() == 5:
+        df_rec = lyric[lyric['label'] == 1]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 6:
         df_rec = lyric[lyric['label'] == 1]
         df_rec = df_rec.reset_index(drop=True)
 
@@ -317,6 +313,9 @@ def movie_recommend(sentence):
         df_rec = df_rec.reset_index(drop=True)
     if score.argmax() == 5:
         df_rec = movie[(movie['장르'] == '액션') | (movie['장르'] == '스릴러')]
+        df_rec = df_rec.reset_index(drop=True)
+    if score.argmax() == 6:
+        df_rec = movie[(movie['장르'] == '드라마') | (movie['장르'] == '어드벤처')]
         df_rec = df_rec.reset_index(drop=True)
 
     print("test2")

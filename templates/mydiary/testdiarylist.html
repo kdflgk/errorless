@@ -22,7 +22,7 @@
             <tr class="table-primary">
                 <th>No.</th>
                 <th>Title</th>
-                <th >Date</th>
+                <th  style="text-align: center;">Date</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                 <td>
                     <a href="{% url 'mydiary:detail' question.id %}"style="font-family:'BMJUA'; color:black">{{ question.subject }}</a>
                 </td>
-                <td>
+                <td style="text-align: center;">
                     {{ question.create_date }}
                 </td>
             </tr>
